@@ -1,2 +1,2 @@
 # cpp-learning-journey
-Logging my past and current learnings into one document
+Logging my past and current learnings placing here
