@@ -131,7 +131,7 @@ Then  we can use the below custom command
 
 test
 
-## Basic Installations in Ubuntu after first srtatup
+## Basic Installations in Ubuntu after first startup
 
 **Command to run before starting of first build**
 
