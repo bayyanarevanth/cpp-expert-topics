@@ -21,21 +21,21 @@
 ## Git Frequently Used Commands
 
 **Configuring**
-
-    Git Config (Global/User-level) Syntax 
+```shell
+    #Git Config (Global/User-level) Syntax 
         git config --global setting value 
 
-    Configure User and Email 
+    #Configure User and Email 
         git config --global user.name "Revanth K Bayyana" 
         git config --global user.email "<email id>" 
 
-    Listing All Global Configuration Settings 
+    #Listing All Global Configuration Settings 
         git config --global --list 
 
-    For opening the config in editor and edit as per the tool choice 
+    #For opening the config in editor and edit as per the tool choice 
         git config --global -e
     
-    Sample configuration is as below 
+    #Sample configuration is as below 
         [user]
             email = embedded.auto.revanth@gmail.com
             name = revanth.ubuntu
@@ -44,8 +44,10 @@
         [difftool "vscode"]
             cmd = code --wait --diff "$LOCAL" "$REMOTE"
 
-    Seeing Git's User-based Config file 
+    #Seeing Git's User-based Config file 
         cat ~/.gitconfig 
+```
+
 
 **Fresh Start**
 
@@ -61,11 +63,11 @@
 
 >Note: Staging commands as below for more clarity
 
-| Command | Description |
-|---|---|
-| git add .   | adds new + modified, skips deleted  |
-| git add -u   | adds modified + deleted, skips new |
-| git add -A  | adds all (new, modified, deleted)  |
+| Command    | Description                        |
+|------------|:-----------------------------------|
+| git add .  | adds new + modified, skips deleted |
+| git add -u | adds modified + deleted, skips new |
+| git add -A | adds all (new, modified, deleted)  |
 
     git push  (to main)
 

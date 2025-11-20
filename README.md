@@ -404,5 +404,104 @@ Compile Time and Run-time polymorphism
 
 <img src="polymorphism/typesOfPolymorphism.png" width="50%">
 
-**c++ will do static binding**
+**c++ will do static binding in inheritance but dynamic binding is in Polymorphism**
+
+
+**The problem**
+
+```c++
+class Base {
+public:
+    void say_hello() const {
+        std::cout << "Hello - I'm a Base class object" << std::endl;
+    }
+};
+class Derived: public Base {
+public:
+    void say_hello()  const {   
+        std::cout << "Hello - I'm a Derived class object" << std::endl;
+    }
+};
+void greetings(const Base &obj) {
+    std::cout << "Greetings: " ;
+    obj.say_hello();
+}
+
+int main() {
+    Base b;
+    b.say_hello();      // Base class
+    Derived d;
+    d.say_hello();      // Derived class
+    
+    greetings(b);       // Greetings : Base class
+    greetings(d);       // Greetings: Derived class
+    
+    Base *ptr = new Derived();
+    ptr->say_hello();   // Base class pointer
+    
+    std::unique_ptr<Base> ptr1 = std::make_unique<Derived>();
+    ptr1->say_hello();  // Base class pointer
+    delete ptr;
+    return 0;
+}
+```
+Polymorphism is in short as below <br>
+`<Base Class> *prt = new <Derived Class>`
+
+```c++
+    Account *p1 = new Account();
+    Account *p2 = new Savings();
+    Account *p3 = new Checking();
+    Account *p4 = new Trust();
+```
+
+
+
+if `say_hello()` is declared with `virtual` specifier we can get the dynamic binding(polymorphism)
+
+
+For polymorphism, we need to have 
+- Inheritance
+- Base class pointer or Base class reference
+- Virtual functions (override the definition dynamically)
+  - If any Virtual functions are defined in any class then the class would need a virtual destructor 
+  - Otherwise memory leak or undefined behavior obtains
+- Explicit `override` specifier
+  - When virtual functions are declared in the Class in multiple classes
+  - Then all the function signature and return must be EXACTLY same
+  - By mistake if any slight difference, then it is a Redefinition but not `override` 
+  - In C++ we have the `override` specifier to throw error at compile time.
+
+>You only need to write either virtual or override, <br>
+>BUT the best practice in modern C++ is to use ONLY `override` in derived classes.
+
+| Situation     | Write      | Why                               |
+| ------------- | ---------- | --------------------------------- |
+| Base class    | `virtual`  | Declares virtual dispatch         |
+| Derived class | `override` | Ensures correct override; cleaner |
+
+
+Problem due to not having `override` specifier
+
+<img src="polymorphism/withoutOVERRIDE.png" width="50%">
+
+The output will be like
+
+<img src="polymorphism/unintended_output.png" width="50%">
+
+
+Compiler error with the `override` specifier
+
+<img src="polymorphism/withOVERRIDE.png" width="50%">
+
+
+**`final` Specifier**
+<br>When used at class level 
+- no further Derivation of Class is possible
+
+When used at the method level
+- Prevents virtual method from being overridden in derived classes further (for better compiler optimisation)
+
+
+**Use Base Class References**
 
