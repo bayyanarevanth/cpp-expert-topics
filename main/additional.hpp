@@ -3,6 +3,7 @@
 //
 #include "../ObjectsAndClasses/Movies.hpp"
 #include "../operator-overloading/operator-overload.hpp"
+#include "../inheritance/inheritance.hpp"
 
 #ifndef CPP_PROJECT_ADDITIONAL_HPP
 #define CPP_PROJECT_ADDITIONAL_HPP

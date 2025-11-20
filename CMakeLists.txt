@@ -14,4 +14,14 @@ add_executable(cpp_project main/main.cpp
         main/additional.cpp
         main/additional.hpp
         inheritance/inheritance.cpp
-        inheritance/inheritance.hpp)
+        inheritance/inheritance.hpp
+        inheritance/Account.cpp
+        inheritance/Account.h
+        inheritance/Account_Util.cpp
+        inheritance/Account_Util.h
+        inheritance/Savings_Account.cpp
+        inheritance/Savings_Account.h
+        inheritance/Checking_Account.cpp
+        inheritance/Checking_Account.hpp
+        inheritance/Trust_Account.cpp
+        inheritance/Trust_Account.hpp)

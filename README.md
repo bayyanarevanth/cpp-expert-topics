@@ -1,7 +1,9 @@
 # cpp-learning-journey
 Logging my past and current learnings placing here
 
-### The #define inclusions tips to avoid multiple inclusions by compiler as below 
+**C++ is all about Efficiency**
+
+ **The #define inclusions tips to avoid multiple inclusions by compiler as below** 
 
 
     #ifndef _AAAAA_H_
@@ -14,13 +16,30 @@ Logging my past and current learnings placing here
 
     #pragme once  [Needs to check the compiler support]
 
+# Functions
+```c++
+Checking_Account(const char* name = def_name, double balance = def_balance) 
+{
+    // Some statements
+}
+```
+in this case you can call function with different ways as below
+
+```c++
+Checking_Account();                // uses both defaults
+Checking_Account("Kirk");          // name="Kirk", balance=def_balance
+Checking_Account("Kirk", 500.0);   // both provided
+```
+
+
 # OOPS C++
 ## Constructors & Destructors
 - Default Constructors and Destructors are created by C++ if there is no 
 implementation by user
 - If a constructor with arguments is created then you cannot declare an object without initial value,<br> 
-you get the compiler error. i.e. we need to declare and define the constructors as per the arguments usage in the code. 
-<pre>
+you get the compiler error. i.e. we need to declare and define the constructors as per the arguments usage in the code.
+
+```c++
 Player() <-- class
 
 // no args constructor
@@ -36,15 +55,38 @@ Player::Player(string str, int hlt) {
     health  = hlt;
 }
 
-// Better way of no args constructor with initialization list
+// Better way of args constructor with initialization list instead of copying inside
 Player::Player(string str, int hlt) : name{str}, health{hlt}{
 
 }
-</pre>
+```
+> Note<br>
+✅ Use emplace_back when you want to avoid an extra copy/move and construct the object directly.<br>
+`emplace_back` → constructs the element in place inside the container using the arguments provided.<br>
+✅ Use push_back when you already have a fully constructed object.<br>
+`push_back` → copies or moves an existing object into the container.
+> 
+
 - The assignment way of constructor will consume more run time, by using the initialisation list there will not be any<br> 
 additional assignment statements execution before starting of the actual code execution.
 - Delegating constructor is a constructor calls the original constructor defined by class.
-- If there are several ways of Object declared then corresponding overloading constructor declaration and definition is needed.
+```c++
+class Example {
+   public:
+   
+      // Primary constructor	  
+      Example(int value) : data(value) {}
+
+      // Delegating constructor
+      Example() : Example(0) {}
+
+   private:
+      int data;
+};
+```
+- While developing, Object needs several ways of declaratoin, then corresponding overloading constructor declaration and definition is needed, <br>
+otherwise c++ will create default constructor if nothing is defined or gives compiler error, 
+- To avoid assumptions it is adviced to define user defined constructors based on need.
 
 >**Efficient way of handling the Constructor is to create a constructor that initializes all the members**<br>
 **Therefore, it will accept all the object constructing statements from main code**
@@ -86,8 +128,8 @@ StringOperations(const StringOperations& rhs)
 ```                                                    
 #### Deep copy (Object creation with _L-Value_ reference or [_Copy from another object_])
 
-In deep copy to compensate the memory issue every time we **create a new heap storage while copying to or while constructing new object.**<br>
-Therefore, while deleting we don't need to bother about the pointing source as we create a dedicated pointer before copying.<br>
+In deep copy to compensate the memory issue, every time we **create a new heap storage while copying to new object or while constructing new object.**<br>
+Therefore, while destructing we don't need to bother about the pointing source(for double delete) as we create a dedicated pointer before copying.<br>
 **In short: Allocate a new storage and copy the data**
 ```c++
 StringOperations(const StringOperations& rhs)
@@ -158,16 +200,76 @@ Two highlighted cases for _this_ pointer is as below
 
 
 ## Operator Overloading
-Copy constructor syntax for _L-Value_ reference<br>
-`Mystring &Mystring::operator=(const Mystring &rhs){`<br>
-`<Code for the "=" overloading action>`<br>
-`}`
+Copy Assignment constructor syntax for _L-Value_ reference
+```c++
+Mystring &Mystring::operator=(const Mystring &rhs){
+// <Code for the "=" overloading action>
+    if (this == &rhs) 
+        return *this;
+    delete [] str;
+    str = new char[strlen(rhs.str) + 1];
+    strcpy(str, rhs.str);
+    return *this;
+}
+```
 
-Move constructor for _R-Value_ reference<br>
+Move assignment constructor for _R-Value_ reference<br>
 > after copying we will derefence the pointer(s) to `nullptr` <br>
+```c++
+Mystring &operator=(Mystring &&rhs)            // Move assignment
+{
+     if (this == &rhs) 
+        return *this;
+    delete [] str;
+    str = rhs.str;
+    rhs.str = nullptr;
+    return *this;
+}
+```
 
 
 ## Inheritance 
+
+**Access Specifiers: public, private and protected access**
+•Most common
+•Establishes ‘is-a’ relationship between Derived and Base classes
+
+| Access    | Base class | Derived class | Outside code |
+| --------- | ---------- | ------------- | ------------ |
+| private   | ✔️         | ❌             | ❌            |
+| protected | ✔️         | ✔️            | ❌            |
+| public    | ✔️         | ✔️            | ✔️           |
+
+```c++
+class Base {
+private:
+    int a = 1;      // private
+protected:
+    int b = 2;      // protected
+public:
+    int c = 3;      // public
+};
+
+class Derived : public Base {
+public:
+    void test() {
+        // a = 10;   // ❌ private: NOT accessible in Derived
+        b = 20;      // ✅ protected: accessible in Derived
+        c = 30;      // ✅ public: accessible
+    }
+};
+
+int main() {
+    Derived d;
+
+    // d.a = 1;     // ❌ private: no
+    // d.b = 2;     // ❌ protected: no (from outside)
+    d.c = 3;        // ✅ public: works
+}
+```
+
+
+General Syntax for the 
 
 ```c++
 class Base {
@@ -177,13 +279,11 @@ class Derived: <access-specifier> Base {
 // Derived class members . . .
 };
 ```
-access-specifier: public, protected, private
-
-public
-•Most common
-•Establishes ‘is-a’ relationship between Derived and Base classes
 
 **Inheritance**
+
+<img src="inheritance/inheritance.png" width="30%" height="30%">
+
 ```c++
 class Base {
 public:
@@ -227,11 +327,82 @@ int main() {
     w.callFoo(); // ✅ works
 }
 ```
+<img src="inheritance/inher_composition.png" width="50%">
 
 
 
-- the IS-a relation between two classes 
-- If a derived class doesn't initialize the base class with the ini, 
+- this is `IS-a` relation between two classes
 
-- Construction of base class members to be done explicitly in the derived class definition otherwise
+### Construction and Destruction of inheritance
+`Derived der;`
+- Base constructor invoked first --> Derived constructor invoked 
+- And destructor the oppostie happens Derived destructs first --> Base destructs
+
+- A Derived class does NOT inherit
+  - Base class constructors 
+  - Base class destructor
+  - Base class overloaded assignment operators
+  - Base class friend functions
+- However, the derived class constructors, destructors, and overloaded <br>
+  assignment operators can invoke the base-class versions
+- C++11 allows explicit inheritance of base ‘non-special’ constructors with
+  - `_using Base::Base;_` anywhere in the derived class declaration
+    - If the Derived class is not having constructor with arguments
+    - Then it calls corresponding base class constructor with arguments which matches
+    - This will cause confusion if `_using Base::Base;_` is used
+  - Lots of rules involved, often better to deﬁne constructors yourself
+  
+```c++
+class Base {
+private:
+    int value;
+public:
+   Base() : value{0} { cout << "Base no-args constructor" << endl; }
+   Base(int x) : value{x} { cout << "Base (int) overloaded constructor" << endl; }
+   ~Base(){ cout << "Base destructor" << endl; }
+};
+
+class Derived : public Base {
+    using Base::Base;
+private:
+    int doubled_value;
+public:
+    Derived() : doubled_value {0} { cout << "Derived no-args constructor " << endl; } 
+    Derived(int x) : doubled_value {x*2}  { cout << "Derived (int) overloaded constructor" << endl; }
+    ~Derived() { cout << "Derived destructor " << endl; } 
+};
+
+int main() {
+//   Base b;
+//    Base b{100};
+ //   Derived d;
+ Derived d {1000};
+    
+    return 0;
+}
+```
+But In General the derived class construcor to be defined as below with explicit base constructor
+```c++
+    Derived() : 
+        Base {}  {
+            cout << "Derived no-args constructor " << endl; 
+    }
+    Derived(int x) 
+        : Base{x} , doubled_value {x * 2} { 
+            cout << "int Derived constructor" << endl; 
+    }
+```
+
+- If a derived class doesn't initialize the base class with the ini, that means a no args constructor will be invoked
+
+- Construction call of base class members to be done explicitly in the derived class definition otherwise
 constructor will be called instead while creating the derived object
+
+## Polymorphism
+
+Compile Time and Run-time polymorphism
+
+<img src="polymorphism/typesOfPolymorphism.png" width="50%">
+
+**c++ will do static binding**
+
