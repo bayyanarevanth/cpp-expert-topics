@@ -119,11 +119,11 @@ StringOperations(const StringOperations& rhs)
         Shallow obj2 {obj1};      //<-- calls constructor and creates the members for this obj2 
                                   //          and copies the member values form obj1 which is invalid as it was deleted before
         obj2.set_data_value(1000);//  <-- Set the value to the member as 1000 (in this case pointer is copied from obj1 to obj2 
-                                  //      both points to the same address) --> then both obj1 and obj2 members will sets to 1000
+                                  //      both points to the same address) --> then both obj1 and obj2 members will set to 1000
         
         return 0;
-    }                               //<-- First object Destructor calls the , which deletes the already deleted memory<br>
-                                    //        --> If it goes further then Destruction of second object <br>
+    }                               //<-- First object Destructor calls the destruction, which deletes the already deleted memory<br>
+                                    //        --> If it goes further, then Destruction of second object <br>
                                     //                it will further delete again the same invalid memory location<br>
 ```                                                    
 #### Deep copy (Object creation with _L-Value_ reference or [_Copy from another object_])
@@ -214,7 +214,7 @@ Mystring &Mystring::operator=(const Mystring &rhs){
 ```
 
 Move assignment constructor for _R-Value_ reference<br>
-> after copying we will derefence the pointer(s) to `nullptr` <br>
+> after copying, we will derefence the pointer(s) to `nullptr` <br>
 ```c++
 Mystring &operator=(Mystring &&rhs)            // Move assignment
 {
@@ -234,11 +234,11 @@ Mystring &operator=(Mystring &&rhs)            // Move assignment
 •Most common
 •Establishes ‘is-a’ relationship between Derived and Base classes
 
-| Access    | Base class | Derived class | Outside code |
-| --------- | ---------- | ------------- | ------------ |
-| private   | ✔️         | ❌             | ❌            |
-| protected | ✔️         | ✔️            | ❌            |
-| public    | ✔️         | ✔️            | ✔️           |
+| Access     | Base class  | Derived class  | Outside code  |
+|------------|-------------|----------------|---------------|
+| private    | ✔️          | ❌              | ❌             |
+| protected  | ✔️          | ✔️             | ❌             |
+| public     | ✔️          | ✔️             | ✔️            |
 
 ```c++
 class Base {
@@ -282,7 +282,7 @@ class Derived: <access-specifier> Base {
 
 **Inheritance**
 
-<img src="inheritance/inheritance.png" width="30%" height="30%">
+<img src="inheritance/inheritance.png" width="30%" height="30%" alt="">
 
 ```c++
 class Base {
@@ -327,7 +327,7 @@ int main() {
     w.callFoo(); // ✅ works
 }
 ```
-<img src="inheritance/inher_composition.png" width="50%">
+<img src="inheritance/inher_composition.png" width="50%" alt="">
 
 
 
@@ -350,7 +350,7 @@ int main() {
     - If the Derived class is not having constructor with arguments
     - Then it calls corresponding base class constructor with arguments which matches
     - This will cause confusion if `_using Base::Base;_` is used
-  - Lots of rules involved, often better to deﬁne constructors yourself
+  - Lots of rules involved, often better to define constructors yourself
   
 ```c++
 class Base {
@@ -402,7 +402,7 @@ constructor will be called instead while creating the derived object
 
 Compile Time and Run-time polymorphism
 
-<img src="polymorphism/typesOfPolymorphism.png" width="50%">
+<img src="polymorphism/typesOfPolymorphism.png" width="50%" alt="">
 
 **c++ will do static binding in inheritance but dynamic binding is in Polymorphism**
 
@@ -465,7 +465,7 @@ For polymorphism, we need to have
 - Base class pointer or Base class reference
 - Virtual functions (override the definition dynamically)
   - If any Virtual functions are defined in any class then the class would need a virtual destructor 
-  - Otherwise memory leak or undefined behavior obtains
+  - Otherwise, memory leak or undefined behavior obtains
 - Explicit `override` specifier
   - When virtual functions are declared in the Class in multiple classes
   - Then all the function signature and return must be EXACTLY same
@@ -475,24 +475,24 @@ For polymorphism, we need to have
 >You only need to write either virtual or override, <br>
 >BUT the best practice in modern C++ is to use ONLY `override` in derived classes.
 
-| Situation     | Write      | Why                               |
-| ------------- | ---------- | --------------------------------- |
-| Base class    | `virtual`  | Declares virtual dispatch         |
-| Derived class | `override` | Ensures correct override; cleaner |
+| Situation      | Write       | Why                                |
+|----------------|-------------|------------------------------------|
+| Base class     | `virtual`   | Declares virtual dispatch          |
+| Derived class  | `override`  | Ensures correct override; cleaner  |
 
 
 Problem due to not having `override` specifier
 
-<img src="polymorphism/withoutOVERRIDE.png" width="50%">
+<img src="polymorphism/withoutOVERRIDE.png" width="50%" alt="">
 
 The output will be like
 
-<img src="polymorphism/unintended_output.png" width="50%">
+<img src="polymorphism/unintended_output.png" width="50%" alt="">
 
 
 Compiler error with the `override` specifier
 
-<img src="polymorphism/withOVERRIDE.png" width="50%">
+<img src="polymorphism/withOVERRIDE.png" width="50%" alt="">
 
 
 **`final` Specifier**
@@ -504,4 +504,82 @@ When used at the method level
 
 
 **Use Base Class References**
+By using the base class references, polymorphism works as below 
 
+```c++
+    Account a;
+    Account &ref = a;
+    ref.withdraw(1000);		    // In Account::withdraw
+
+    Trust t;
+    Account &ref1 = t;
+    ref1.withdraw(1000);        // In Trust::withdraw
+
+   Account a1;
+   Savings a2;
+   Checking a3;
+   Trust a4;
+   
+   do_withdraw(a1, 1000);       // In Account::withdraw
+   do_withdraw(a2, 2000);       // In Savings::withdraw
+   do_withdraw(a3, 3000);       // In Checking::withdraw
+   do_withdraw(a4,  4000);      // In Trust::withdraw
+```
+
+**Abstract Base Class**
+Abstract Class are the classes 
+- Cannot instantiate objects
+- These classes are used as base classes in inheritance hierarchies 
+- Often referred to as Abstract Base Classes
+
+**Concrete class**
+- Used to instantiate objects from
+- All their member functions are deﬁned
+- Checking Account, Savings Account
+- Faculty, Staff
+- Enemy, Level Boss
+
+> **Friend functions are not inherited** <br>
+> Those friend functions to be choosen based on the need in the inherited Class and also should be redefined
+
+Therefore, it is possible to create a class with friend function and that can be used for the base class <br>
+that works as an interface class. 
+
+```c++
+#include <iostream>
+
+class I_Printable {
+    friend std::ostream &operator<<(std::ostream &os, const I_Printable &obj);
+public:
+    virtual void print(std::ostream &os) const = 0;
+    virtual ~I_Printable {};
+};
+
+std::ostream &operator<<(std::ostream &os, const I_Printable &obj) {
+    obj.print(os);
+    return os;
+}
+
+
+class Account : public I_Printable {
+public:
+    virtual void withdraw(double amount) {
+        std::cout << "In Account::withdraw" << std::endl;
+    }
+    virtual void print(std::ostream &os) const override {
+        os << "Account display";
+    }
+    virtual ~Account() {  }
+};
+
+class Checking: public Account  {
+public:
+    virtual void withdraw(double amount) {
+        std::cout << "In Checking::withdraw" << std::endl;
+    }
+     virtual void print(std::ostream &os) const override {
+        os << "Checking display";
+    }
+    virtual ~Checking() {  }
+};
+```

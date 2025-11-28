@@ -9,7 +9,31 @@ using namespace std;
 
 int main()
 {
+#if POLY_SRC_ENABLE == 1
+    cout.precision(2);
+    cout << fixed;
 
+    // Accounts
+    Savings_Account mo("Moe",1000);
+    Account *p1 = &mo;
+
+    Checking_Account ch("Larry", 2000);
+
+    Trust_Account tr("Stephen", 3050);
+    Account *p3 = new Trust_Account("Curly", 3050);
+
+    vector<Account *> accs{p1, &ch,p3,&tr};
+    display(accs);
+
+    delete p3;
+#endif
+
+    //string string_asign{"ABCDEFGHIJK"};
+    //stringDisplay(string_asign);
+    //string_asign = "Revanth is good";
+    //stringDisplay(string_asign);
+
+#if INH_SRC_ENABLE == 1
     cout.precision(2);
     cout << fixed;
 
@@ -66,6 +90,7 @@ int main()
         withdraw(trust_accounts, 1000);
 
 
+#endif
 
 
 #ifdef OPER_OVERLOADING

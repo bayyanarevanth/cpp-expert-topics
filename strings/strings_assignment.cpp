@@ -3,20 +3,33 @@
 //
 
 
-#include <iostream>
-#include <string>
+/*
+ *    If the user enters the string "ABC", then your program should display:
+ *      A
+ *     ABA
+ *    ABCBA
+ *    If the user enters the string, "12345", then your program should display:
+ *        1
+ *       121
+ *      12321
+ *     1234321
+ *    123454321
+ *
+ **/
 
-using namespace std;
+#include "strings_assignment.hpp"
 
 
-void stringsAssignment(const string& s1)
+
+void stringDisplay(const std::string& s1)
 {
-    for (char c : s1)
+    for ( int i = 0; i < s1.length(); i++)
     {
-        string sp(s1.size()-1, ' ');
-        cout << sp + c << endl;
+        std::string loc{s1.substr(0,i+1)};
+        std::string sp(s1.size()-i, ' ');
+        std::cout << sp + loc;
+        loc = loc.erase(i,1);
+        std::reverse(loc.begin(),loc.end());
+        std::cout<<loc<<std::endl;
     }
-
-
-
 }
