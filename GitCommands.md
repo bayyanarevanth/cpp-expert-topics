@@ -131,7 +131,6 @@ Then  we can use the below custom command
     Then it opens the Apllying the remaining commits until it finishes the rebase.
 5. Push the final changes..... Done!!
 
-test
 
 ## Basic Installations in Ubuntu after first startup
 
@@ -151,7 +150,36 @@ test
     sudo apt remove clang
     sudo deborphan 
 
-<pre>
-Code block for testing
+**Bring master’s new commit into your side branch:**
+<br>MERGE (safe, common)
+```shell
+git checkout side-branch
+git merge master
+```
+This creates a merge commit, combining:<br>
+commits on side-branch<br>
+new commit on master<br>
+Pros:<br>
+✔ keeps full history<br>
+✔ safest option (no rewriting)   **-->This is what many companies prefer.**<br>
 
-</pre>
+REBASE (clean history)
+
+Replay the side-branch commits on top of master’s latest commit:
+```shell
+git checkout side-branch
+git rebase master
+```
+This makes it look like:<br>
+side-branch started after master’s new commit<br>
+**Pros:**<br>
+✔ clean linear history<br>
+✔ no merge commit<br>
+Cons:<br>
+✖ rewrites history (don’t use on shared branches)
+
+Merge - keeps history<br>
+Rebase - keeps it cleaner
+
+
+
