@@ -49,13 +49,15 @@
 ```
 
 
-**Fresh Start**
+## Fresh Start
 
     pwd 
     cd <projects>/ 
     git init <git-proj-name> 
+
 >Note: [git-proj-folder] is optional. If not supplied, Git will initialize the current directory.
 
+## Other Important commands
 **Commands for committing**
 
     git add README.md
@@ -132,24 +134,6 @@ Then  we can use the below custom command
 5. Push the final changes..... Done!!
 
 
-## Basic Installations in Ubuntu after first startup
-
-**Command to run before starting of first build**
-
-    sudo apt update
-    sudo apt install build-essential 
-    sudo apt install clang  (optional for ubuntu)
-    sudo apt install cmake
-    sudo apt install git
-
-    sudo apt remove clang
-    suto apt-get autoremove 
-    sudo apt install clang
-    sudo apt install deborphan
-    sudo deborphan
-    sudo apt remove clang
-    sudo deborphan 
-
 **Bring master’s new commit into your side branch:**
 <br>MERGE (safe, common)
 ```shell
@@ -183,3 +167,11 @@ Rebase - keeps it cleaner
 
 
 
+For Sublime Text `Copy Bookmarked Lines` process
+- Select the string you wanted to search for then
+- Alt+F3
+- Ctrl+L
+- Ctrl+Shift+L
+- Copy
+- Create new buffer
+- Paste
